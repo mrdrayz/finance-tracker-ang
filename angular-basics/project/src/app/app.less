@@ -1,0 +1,33 @@
+:host {
+    display: block;
+}
+
+.app-header {
+    background-color: #ffffff;
+    border-bottom: 2px solid var(--tui-border-normal, #e5e5e5);
+    padding: 16px 32px;
+    display: flex;
+    justify-content: center;
+}
+
+.app-header-logo {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+}
+
+.app-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 32px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+}
+
+app-transaction-form,
+app-transaction-history {
+    width: 100%;
+    max-width: 600px;
+}

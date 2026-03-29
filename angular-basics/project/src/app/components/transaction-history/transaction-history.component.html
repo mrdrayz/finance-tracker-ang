@@ -1,0 +1,41 @@
+<section class="history">
+    <h2 class="history-title">История транзакций</h2>
+
+    @if (transactions.length === 0) {
+        <p class="history-empty">Транзакций пока нет. Добавьте первую!</p>
+    }
+
+    <ul class="transaction-list">
+        @for (transaction of transactions; track transaction.id) {
+            <li
+                @listAnimation
+                class="transaction-item"
+                [class.transaction-item--income]="isIncome(transaction)"
+                [class.transaction-item--expense]="!isIncome(transaction)"
+                [class.transaction-item--editing]="isEditingTransaction(transaction)"
+                [tuiHint]="hasComment(transaction) ? transaction.comment : null"
+                tuiHintDirection="right"
+            >
+                <div class="transaction-info">
+                    <span class="transaction-category">{{ transaction.category }}</span>
+                    <span class="transaction-date">{{ transaction.date }}</span>
+                </div>
+                <div class="transaction-right">
+                    <span class="transaction-amount">
+                        {{ transaction.amount | transactionAmount: transaction.type }}
+                    </span>
+                    <button
+                        tuiButton
+                        type="button"
+                        appearance="flat"
+                        size="s"
+                        class="edit-button"
+                        (click)="onEditTransaction(transaction)"
+                    >
+                        Изменить
+                    </button>
+                </div>
+            </li>
+        }
+    </ul>
+</section>

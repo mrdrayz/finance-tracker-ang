@@ -1,0 +1,63 @@
+<section class="statistics">
+    <h2 class="statistics-title">Статистика</h2>
+
+    @if (incomeValues().length === 0 && expenseValues().length === 0) {
+        <p class="statistics-empty">Добавьте транзакции, чтобы увидеть статистику</p>
+    }
+
+    <div class="charts-container">
+        @if (incomeValues().length > 0) {
+            <div class="chart-section">
+                <h3 class="chart-subtitle">Доходы</h3>
+                <div class="chart-wrapper">
+                    <tui-ring-chart
+                        [value]="incomeValues()"
+                        [(activeItemIndex)]="activeIncomeIndex"
+                        size="xl"
+                    >
+                        {{ getActiveLabel(incomeTotals(), activeIncomeIndex) }}
+                        {{ getActiveAmount(incomeTotals(), activeIncomeIndex) }}
+                    </tui-ring-chart>
+                </div>
+                <div class="chart-legend">
+                    @for (item of incomeTotals(); track item.category; let i = $index) {
+                        <div class="legend-item">
+                            <span [class]="'legend-color legend-color-' + i"></span>
+                            <span class="legend-text">{{ item.category }}</span>
+                            <span class="legend-amount">
+                                {{ formatLegendAmount(item.amount) }}
+                            </span>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+
+        @if (expenseValues().length > 0) {
+            <div class="chart-section">
+                <h3 class="chart-subtitle">Расходы</h3>
+                <div class="chart-wrapper">
+                    <tui-ring-chart
+                        [value]="expenseValues()"
+                        [(activeItemIndex)]="activeExpenseIndex"
+                        size="xl"
+                    >
+                        {{ getActiveLabel(expenseTotals(), activeExpenseIndex) }}
+                        {{ getActiveAmount(expenseTotals(), activeExpenseIndex) }}
+                    </tui-ring-chart>
+                </div>
+                <div class="chart-legend">
+                    @for (item of expenseTotals(); track item.category; let i = $index) {
+                        <div class="legend-item">
+                            <span [class]="'legend-color legend-color-' + i"></span>
+                            <span class="legend-text">{{ item.category }}</span>
+                            <span class="legend-amount">
+                                {{ formatLegendAmount(item.amount) }}
+                            </span>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</section>

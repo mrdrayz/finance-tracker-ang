@@ -1,0 +1,105 @@
+:host {
+    display: block;
+}
+
+.history {
+    background-color: var(--tui-background-base, #fff);
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+    padding: 32px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.history-title {
+    margin: 0 0 24px;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--tui-text-primary, #1b1f3b);
+}
+
+.history-empty {
+    color: var(--tui-text-secondary, #959ba4);
+    font-size: 14px;
+    text-align: center;
+    padding: 32px 0;
+}
+
+.transaction-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.transaction-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-radius: 12px;
+    cursor: default;
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease;
+
+    &:hover {
+        background-color: var(--tui-background-neutral-1, #f0f0f0);
+    }
+
+    &--income {
+        border-left: 4px solid var(--tui-status-positive, #4ac99b);
+    }
+
+    &--expense {
+        border-left: 4px solid var(--tui-status-negative, #e44848);
+    }
+
+    &--editing {
+        background-color: #fff8e1;
+        border-left-color: #ffdd2d;
+    }
+}
+
+.transaction-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.transaction-category {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--tui-text-primary, #1b1f3b);
+}
+
+.transaction-date {
+    font-size: 12px;
+    color: var(--tui-text-secondary, #959ba4);
+}
+
+.transaction-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.transaction-amount {
+    font-size: 16px;
+    font-weight: 600;
+    white-space: nowrap;
+
+    .transaction-item--income & {
+        color: var(--tui-status-positive, #4ac99b);
+    }
+
+    .transaction-item--expense & {
+        color: var(--tui-status-negative, #e44848);
+    }
+}
+
+.edit-button {
+    flex-shrink: 0;
+}

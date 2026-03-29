@@ -1,0 +1,135 @@
+<form [formGroup]="transactionForm" (ngSubmit)="onSubmit()" class="transaction-form">
+    <h2 class="form-title">
+        @if (isEditing()) {
+            Редактирование транзакции
+        } @else {
+            Новая транзакция
+        }
+    </h2>
+
+    <fieldset class="field-group">
+        <legend class="field-label">Вид транзакции</legend>
+        <div class="block-group">
+            @for (option of typeOptions; track option.value) {
+                <label tuiBlock>
+                    <input type="radio" formControlName="type" [value]="option.value" />
+                    {{ option.label }}
+                </label>
+            }
+        </div>
+        @if (typeControl.touched && typeControl.hasError('required')) {
+            <div class="field-error">Выберите вид транзакции</div>
+        }
+    </fieldset>
+
+    <div class="field-group">
+        <tui-textfield>
+            <label tuiLabel>Категория транзакции</label>
+            <select
+                tuiSelect
+                formControlName="category"
+                [items]="categoryOptions"
+                placeholder="Выберите категорию"
+                autocomplete="off"
+            ></select>
+        </tui-textfield>
+        @if (categoryControl.touched && categoryControl.hasError('required')) {
+            <div class="field-error">Выберите категорию</div>
+        }
+    </div>
+
+    <div class="field-group">
+        <tui-textfield>
+            <label tuiLabel>Сумма транзакции</label>
+            <input
+                tuiInputNumber
+                formControlName="amount"
+                [min]="0"
+                [max]="10000000"
+                postfix=" ₽"
+                placeholder="Введите сумму"
+                autocomplete="off"
+            />
+        </tui-textfield>
+        @if (amountControl.value !== null && amountControl.valid) {
+            <div class="amount-preview">
+                {{ amountControl.value | currency: 'RUB' : 'symbol-narrow' : '1.2-2' }}
+            </div>
+        }
+        @if (amountControl.touched && amountControl.hasError('required')) {
+            <div class="field-error">Заполните это поле</div>
+        }
+        @if (amountControl.hasError('min')) {
+            <div class="field-error">Введите неотрицательное число</div>
+        }
+        @if (amountControl.hasError('max')) {
+            <div class="field-error">Сумма не должна превышать 10 000 000</div>
+        }
+    </div>
+
+    <div class="field-group">
+        <tui-textfield>
+            <label tuiLabel>Дата транзакции</label>
+            <input
+                tuiInputDate
+                formControlName="date"
+                [max]="maxDate"
+                placeholder="Выберите дату"
+                autocomplete="off"
+            />
+        </tui-textfield>
+        @if (dateControl.touched && dateControl.hasError('required')) {
+            <div class="field-error">Выберите дату</div>
+        }
+    </div>
+
+    <div class="field-group">
+        <label class="checkbox-wrapper">
+            <input
+                type="checkbox"
+                tuiCheckbox
+                [(ngModel)]="isCommentEnabled"
+                [ngModelOptions]="{ standalone: true }"
+            />
+            <span class="checkbox-label">Добавить комментарий</span>
+        </label>
+    </div>
+
+    @if (isCommentEnabled) {
+        <div class="field-group">
+            <tui-textfield>
+                <label tuiLabel>Комментарий</label>
+                <textarea
+                    tuiTextarea
+                    formControlName="comment"
+                    [appCommentValidator]="isCommentEnabled"
+                    placeholder="Укажите комментарий"
+                    autocomplete="off"
+                ></textarea>
+            </tui-textfield>
+            @if (commentControl.touched && commentControl.hasError('required')) {
+                <div class="field-error">Заполните это поле</div>
+            }
+            @if (commentControl.hasError('maxlength')) {
+                <div class="field-error">Комментарий не должен превышать 100 символов</div>
+            }
+        </div>
+    }
+
+    <div class="actions">
+        @if (isEditing()) {
+            <button
+                tuiButton
+                type="button"
+                appearance="outline"
+                size="l"
+                (click)="onCancelEditing()"
+            >
+                Отмена
+            </button>
+        }
+        <button tuiButton type="submit" appearance="primary" size="l">
+            {{ isEditing() ? 'Сохранить' : 'Добавить транзакцию' }}
+        </button>
+    </div>
+</form>
